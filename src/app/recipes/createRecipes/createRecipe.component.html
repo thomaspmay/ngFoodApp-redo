@@ -1,0 +1,25 @@
+<ActionBar title="Create a new recipe!" class="action-bar"></ActionBar>
+
+<GridLayout rows="*, auto">
+    <ScrollView>
+		<StackLayout class="m-20">
+			<Label class="m-b-20" text="Give focus to one of the text fields below and watch the labels float up." textWrap="true"></Label>
+			<AbsoluteLayout>
+				<Button text="Click here to add recipe image" left="2" top="0" height="160" width="160" backgroundColor="#C3C3E5"></Button>
+				<Button text="Add Recipe" left="185" top="0" height="50" width="170" backgroundColor="#6F3F98"></Button>
+
+			</AbsoluteLayout>
+			<FloatLabel placeholder="Title"></FloatLabel>
+            <FloatLabel placeholder="Description"></FloatLabel>
+            <GridLayout rows="50, auto" marginBottom="5">
+				<ListPicker [items]="unitTypes" selectedIndex="0" (selectedIndexChange)="onSelectedIndexChanged($event)"></ListPicker>
+				<ListPicker [items]="units" selectedIndex="0" (selectedIndexChange)="onSelectedIndexChanged($event)"></ListPicker>
+					<FloatLabel placeholder="Name"></FloatLabel>
+					<Button text="Delete"></Button>
+					<Slider value="5" minValue="1" maxValue="10" (valueChange)="onSliderValueChange($event)"></Slider>
+				</GridLayout>
+		</StackLayout>
+	</ScrollView>
+    <Button class="m-b-10 m-t-10 t-20" row="1" text="Choose image to upload"
+        (tap)="onSelectImageTap($event)"></Button>
+</GridLayout>
