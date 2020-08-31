@@ -15,6 +15,19 @@ import { of, timer, interval, BehaviorSubject, Observable } from 'rxjs';
 import { sampleTime, concatMap, scan, map } from 'rxjs/operators';
 import { ImageSource } from '@nativescript/core/image-source'
 
+import { confirm } from "tns-core-modules/ui/dialogs";
+
+
+import { EventData, fromObject } from "tns-core-modules/data/observable";
+import { Page } from "tns-core-modules/ui/page";
+import { ListPicker } from "tns-core-modules/ui/list-picker/list-picker";
+
+import { View } from "tns-core-modules/ui/core/view";
+
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
+
+
+
 // import { NSData } from '../../../node_modules/tns-platform-declarations/ios.d'
 // declare type NSData = {};
 
@@ -44,15 +57,19 @@ export class CreateRecipeComponent {
     private event = new BehaviorSubject<any>({});
     private url: string;
     private session: any;
+    public recipe: any;
 
     public recipeIngredientLength = 1;
-    public unitTypes = ['weight','volume']
-    public possibleUnitLists = {
-        "weight": ["g","Kg","ounces","pounds"],
-        "volume": ["cup","l","ml","cm3","mm3","m3"]
-    }
-    public units = this.possibleUnitLists["weight"];
+    public unitTypes = ['weight','volume','misc']
+    public possibleUnitLists = [
+         ["gram","kilogram","ounce","pound"],
+         ["cup","teaspoon","tablespoon","pint","liter","milliliter","cm3","mm3","m3","can"],
+         ["","unkown","clove","large","medium","small","stick","package","bag", "pinch","slice","quart","piece","box"]
+    ]
+    public verifiedUnits = ["cup","teaspoon",null,"tablespoon","pound","ounce","clove","large","medium","stick","package",
+    "can","kilogram","pinch","slice","small","bag","quart","piece","pint","gram","milliliter","box","gallon","liter"]
 
+   
     public showWelcome = true;
     public currentFileNameBeingUploaded = "";
     public eventLog = this.event.pipe(
@@ -68,18 +85,70 @@ export class CreateRecipeComponent {
     constructor() {
         this.url = "http:www.tmay.dev/55559"
         this.session = bgHttp.session("image-upload");
+        this.recipe =  {"id":4,"title":"Delicious Grilled Hamburgers",
+        "description":"Delicious Grilled Hamburgers recipes: information powered by Yummly",
+        "unproIngredients":["1 pound lean ground beef","1 tablespoon Worcestershire sauce",
+        "1 tablespoon liquid smoke flavoring","1 teaspoon garlic powder","1 tablespoon olive oil",
+        "seasoned salt to taste"],"ingredients":
+        [{"quantity":"1","unit":"pound","ingredient":"lean ground beef","minQty":"1","maxQty":"1","ingredientId":1,"unitTypeId":0,"unitId":3,"importance":5},
+        {"quantity":"1","unit":"tablespoon","ingredient":"Worcestershire sauce","minQty":"1","maxQty":"1","ingredientId":2,"unitTypeId":1,"unitId":2,"importance":5},
+        {"quantity":"1","unit":"tablespoon","ingredient":"liquid smoke flavoring","minQty":"1","maxQty":"1","ingredientId":3,"unitTypeId":1,"unitId":2,"importance":5},
+        {"quantity":"1","unit":"teaspoon","ingredient":"garlic powder","minQty":"1","maxQty":"1","ingredientId":4,"unitTypeId":1,"unitId":1,"importance":2},
+        {"quantity":"1","unit":"tablespoon","ingredient":"olive oil","minQty":"1","maxQty":"1","ingredientId":5,"unitTypeId":1,"unitId":2,"importance":5},
+        {"quantity":null,"unit":null,"ingredient":"seasoned salt to taste","minQty":null,"maxQty":null,"ingredientId":6,"unitTypeId":2,"unitId":0,"importance":5}],"instructions":null,"tags":{"cuisine":["Barbecue"],"course":["Main Dishes"]},"image":"img00005.jpg"}
     }
 
-    onSelectedIndexChanged(){
+    onTypeChanged(event){
+        let selectedIndex = event.object.selectedIndex
+        console.log("TypeChange:"+ selectedIndex);
+        let parent = event.object;
+        if(parent){
+            // let unitPicker = <ListPicker>getViewByID(parent,"")
+        }
         
     }
 
-    public onSelectImageTap() {
+    // onSliderValueChange(event){
+    //     let value = event.object.value;
+    //     for (let i = 0; index < array.length; index++) {
+            
+            
+    //     }
+    // }
+
+    onUnitChanged(event){
+        console.log("UnitChange:"+event.object.selectedIndex);
+    }
+
+
+    public onSelectImageTap() {                                                                  
         let context = imagepicker.create({
             mode: "single"
         });
         this.startSelection(context);
     }
+
+    public addNewIngredient(){
+        console.log("adding new ingredient");
+        this.recipe.ingredients.push("");
+        console.log(this.recipe.ingredients)
+    }
+
+    public removeThisInrgedient(event){
+        var id: number = event.object.bindingContext.id - 1;
+        let options = {
+            title: 'Confirm Delete',
+            message: 'Are you sure you want to delete this item?',
+            okButtonText: 'Yes',
+            cancelButtonText: 'Cancel'
+        }    
+        confirm(options).then(result => {
+            if (result) {
+                this.recipe.ingredients.splice(id,1);
+            }
+        });  
+    }
+    
 
     private startSelection(context) {
         context

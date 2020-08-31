@@ -3,7 +3,7 @@ import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 const routes: Routes = [
-    { path: "", redirectTo: "/recommendations", pathMatch: "full" },
+    { path: "", redirectTo: "/createRecipe", pathMatch: "full" },
     { path: "recommendations", loadChildren: () => import("~/app/recommendations/recommendations.module").then((m) => m.RecommendationsModule) },
     { path: "details", loadChildren: () => import("~/app/recommendations/details/details.module").then((m) => m.DetailsModule) },
     { path: "createRecipe", loadChildren: () => import("~/app/recipes/createRecipes/createRecipe.module").then((m) => m.CreateRecipeModule) },

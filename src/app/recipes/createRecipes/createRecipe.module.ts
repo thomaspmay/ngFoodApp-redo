@@ -6,6 +6,7 @@ import { NativeScriptFormsModule } from "@nativescript/angular/forms";
 import { CreateRecipeRoutingModule } from "./createRecipe-Routing.module";
 import { CreateRecipeComponent } from "./createRecipe.component";
 import { FloatLabel } from "./float-label/float-label.component"
+import { AddIngredient } from "./addIngredient/add-ingredient.component"
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { FloatLabel } from "./float-label/float-label.component"
     ],
     declarations: [
         CreateRecipeComponent,
-        FloatLabel
+        FloatLabel,
+        AddIngredient
     ],
     schemas: [
         NO_ERRORS_SCHEMA

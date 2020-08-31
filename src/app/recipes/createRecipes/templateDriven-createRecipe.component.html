@@ -1,0 +1,34 @@
+<Page xmlns:df="nativescript-ui-dataform"><df:RadDataForm id="myDataForm" /></Page>
+<ActionBar title="Create a new recipe!" class="action-bar"></ActionBar>
+
+<GridLayout rows="*, auto">
+    <ScrollView>
+		<StackLayout class="m-20">
+			<AbsoluteLayout>
+				<Button text="Click here to add recipe image" left="2" top="0" height="160" width="160" backgroundColor="#C3C3E5"></Button>
+				<Button text="Add Recipe" left="185" top="0" height="50" width="170" backgroundColor="#6F3F98"></Button>
+			</AbsoluteLayout>
+			<FloatLabel placeholder="Title"></FloatLabel>
+			<FloatLabel placeholder="Description"></FloatLabel>
+			<StackLayout class="ingredient">
+				<StackLayout orientation="horizontal" marginBottom="5" height="200px">
+					<TextField keyboardType="number" width="12%"></TextField>
+					<ListPicker [items]="unitTypes" selectedIndex="0" (selectedIndexChange)="onTypeChanged($event)"></ListPicker>
+					<ListPicker [items]="units" selectedIndex="0" (selectedIndexChange)="onUnitChanged($event)"></ListPicker> 
+					<TextField placeholder="Name" width="40%"></TextField> 			
+				 </StackLayout> 
+				 <StackLayout orientation="horizontal" marginBottom="5" height="100px">
+					<label text="Importance:" width="20%"></label>
+					<label text="1" width="5%"></label>
+					<Slider value="5" minValue="1" maxValue="10" (valueChange)="onSliderValueChange($event)" width="40%"></Slider>
+					<label text="10" width="5%"></label>
+					<Button text="Delete" width="20%" height="100px" position="right"></Button>
+				 </StackLayout>
+			</StackLayout>
+			
+			
+		</StackLayout>
+	</ScrollView>
+    <Button class="m-b-10 m-t-10 t-20" row="1" text="Choose image to upload"
+        (tap)="onSelectImageTap($event)"></Button>
+</GridLayout>
